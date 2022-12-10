@@ -5,7 +5,7 @@ const { uuid } = require('uuid');
 module.exports = (app) => {
   // get notes
   app.get("/api/notes", (req, res) => {
-    retrieveNotes().then(data => res.json(data)).catch((err) => console.log(err));
+    getNotes().then(data => res.json(data)).catch((err) => console.log(err));
   });
 
   // post notes
@@ -26,7 +26,7 @@ module.exports = (app) => {
   });
 
   // get notes async for promise chaining
-  const getNotes = async () => {
+  async function getNotes () {
     const file = path.join(__dirname, "../db/db.json");
     const data = fs.readFile(file);
     const notes = JSON.parse(data);
@@ -34,8 +34,8 @@ module.exports = (app) => {
   };
 
   // creating & pushing new note to notes database
-  const createNote = async note => {
-    const allNotes = await findNotes();
+  async function createNote () {
+    const allNotes = await getNotes();
     allNotes.push(note);
     const file = path.join(__dirname, "../db/db.json");
     fs.createFile(file, JSON.stringify(allNotes));
@@ -43,7 +43,7 @@ module.exports = (app) => {
   };
 
   // delete note using search by id
-  const deleteNote = async id => {
+  async function deleteNote () {
     const allNotes = await getNotes();
     const filteredNotes = await allNotes.filter((note) => id !== note.id);
     const file = path.join(__dirname, "../db/db.json");
