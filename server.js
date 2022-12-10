@@ -2,17 +2,16 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const app = express();
-const api = require('./routes/api');
-const html = require('./routes/html');
+const api = require('./routes/api.js');
+
 const PORT = process.env.PORT || 5000;
+
+const app = express();
 
 //middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(__dirname, '/public/assets'));
-app.use('/routes/api', api);
-app.use('/routes/html', html);
+app.use(express.static(__dirname + '/public/assets'));
 
 app.listen(PORT, () => {
     console.log(`Open me here: http://localhost:${PORT}`);
