@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs').promises;
-const { uuid } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const router = require('express').Router();
  
 // // get notes
@@ -14,7 +14,7 @@ const router = require('express').Router();
     const newNote = {
       title: req.body.title,
       text: req.body.text,
-      id: uuid,
+      id: uuidv4(),
     };
     console.log(newNote)
     createNote(newNote).then(data => res.json(data)).catch((err) => console.log(err));
@@ -30,22 +30,22 @@ const router = require('express').Router();
   // get notes async for promise chaining
   async function getNotes () {
     const file = path.join(__dirname, "../db/db.json");
-    const data = fs.readFile(file);
+    const data = await fs.readFile(file);
     const notes = JSON.parse(data);
     return notes;
   };
 
   // creating & pushing new note to notes database
-  async function createNote () {
+  async function createNote (note) {
     const allNotes = await getNotes();
     allNotes.push(note);
     const file = path.join(__dirname, "../db/db.json");
-    fs.createFile(file, JSON.stringify(allNotes));
+    await fs.writeFile(file, JSON.stringify(allNotes));
     return note;
   };
 
   // delete note using search by id
-  async function deleteNote () {
+  async function deleteNote (updatedNotes) {
     const allNotes = await getNotes();
     const filteredNotes = await allNotes.filter((note) => id !== note.id);
     const file = path.join(__dirname, "../db/db.json");
