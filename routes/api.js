@@ -1,25 +1,26 @@
 const path = require('path');
 const fs = require('fs').promises;
 const { uuid } = require('uuid');
-
-module.exports = (app) => {
-  // get notes
-  app.get("/api/notes", (req, res) => {
-    getNotes().then(data => res.json(data)).catch((err) => console.log(err));
-  });
+const router = require('express').Router();
+  // // get notes
+  // router.get("/notes", (req, res) => {
+  // getNotes().then(data => res.json(data)).catch((err) => console.log(err));
+  // });
 
   // post notes
-  app.post("/api/notes", (req, res) => {
+  router.post("/notes", (req, res) => {
+    console.log('----------- /api/notes post route hit!! -----------')
     const newNote = {
       title: req.body.title,
       text: req.body.text,
       id: uuid,
     };
+    console.log(newNote)
     createNote(newNote).then(data => res.json(data)).catch((err) => console.log(err));
   });
    
   // delete notes
-  app.delete("/api/notes/:id", (req, res) => {
+  router.delete("/notes/:id", (req, res) => {
     const id = req.params.id;
     deleteNote(id).then(data => res.json(data)).catch((err) => console.log(err));
 
@@ -50,4 +51,5 @@ module.exports = (app) => {
     fs.createFile(file, JSON.stringify(filteredNotes));
     return updatedNotes = getNotes();
   };
-};
+
+module.exports = router;
