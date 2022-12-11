@@ -2,7 +2,8 @@ const path = require('path');
 const fs = require('fs').promises;
 const { uuid } = require('uuid');
 const router = require('express').Router();
-  // // get notes
+ 
+// // get notes
   // router.get("/notes", (req, res) => {
   // getNotes().then(data => res.json(data)).catch((err) => console.log(err));
   // });
