@@ -2,15 +2,9 @@ const path = require('path');
 const fs = require('fs').promises;
 const { v4: uuidv4 } = require('uuid');
 const router = require('express').Router();
- 
-// // get notes
-  // router.get("/notes", (req, res) => {
-  // getNotes().then(data => res.json(data)).catch((err) => console.log(err));
-  // });
 
   // post notes
   router.post("/notes", (req, res) => {
-    console.log('----------- /api/notes post route hit!! -----------')
     const newNote = {
       title: req.body.title,
       text: req.body.text,
@@ -27,7 +21,7 @@ const router = require('express').Router();
 
   });
 
-  // get notes async for promise chaining
+  // get notes from database
   async function getNotes () {
     const file = path.join(__dirname, "../db/db.json");
     const data = await fs.readFile(file);
