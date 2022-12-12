@@ -47,10 +47,11 @@ const router = require('express').Router();
   // delete note using search by id
   async function deleteNote (updatedNotes) {
     const allNotes = await getNotes();
-    const filteredNotes = await allNotes.filter((note) => id !== note.id);
-    const file = path.join(__dirname, "../db/db.json");
-    fs.createFile(file, JSON.stringify(filteredNotes));
-    return updatedNotes = getNotes();
+    const filteredNotes = await allNotes.filter((note) => 
+      updatedNotes !== note.id);
+    const file = path.join (__dirname, "../db/db.json");
+    await fs.writeFile(file,JSON.stringify(filteredNotes));
+    return updatedNotes = getNotes ();
   };
 
 module.exports = router;
